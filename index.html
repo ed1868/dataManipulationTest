@@ -1,0 +1,282 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+    body {
+        font-family: "Helvetica Neue", Helvetica, sans-serif;
+    }
+
+    table,
+    th,
+    td {
+        border: solid 1px black;
+        border-collapse: collapse;
+        padding: 2px 3px;
+        text-align: center;
+    }
+
+    }
+</style>
+
+<h1>Codepad</h1>
+<strong>Coding question:</strong> <br>
+Study the JSON data posted in the editor, and implement the following scenario:
+<ol>
+    <li>Create a drop down select menu with the values from json key ‘PARAMCD’, </li>
+    <li>Create a drop down select menu with the values from json key ‘AVISITN’, </li>
+    <li>Populate a html table based on the selections from above two select menus </li>
+    <li>Print in the console, the average values of following json keys: AVAL, CHG </li>
+</ol>
+
+
+<select id="PARAMCD" class="firstdropdown">
+
+</select>
+
+<select id="AVISITN" class="seconddropdown">
+
+</select>
+
+<p id="jsonData"></p>
+
+
+
+
+
+
+<script>
+
+    dummyData = [
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 0, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 1, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 4, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 0.75, "CHG": -0.25, "PRCHG": -25, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 8, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 1, "CHG": 0, "PRCHG": 0, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 12, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 0.625, "CHG": -0.375, "PRCHG": -37.5, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 16, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 0.625, "CHG": -0.375, "PRCHG": -37.5, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 24, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 0.5, "CHG": -0.5, "PRCHG": -50, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 0, "PARAMCD": "PTVAS", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 54, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 4, "PARAMCD": "PTVAS", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 50, "CHG": -4, "PRCHG": -7.4074, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 8, "PARAMCD": "PTVAS", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 63, "CHG": 9, "PRCHG": 16.6667, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 12, "PARAMCD": "PTVAS", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 20, "CHG": -34, "PRCHG": -62.963, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 16, "PARAMCD": "PTVAS", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 32, "CHG": -22, "PRCHG": -40.7407, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9301", "AVISITN": 24, "PARAMCD": "PTVAS", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 40, "CHG": -14, "PRCHG": -25.9259, "Age": 52, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": ">= 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "YES", "Systemic Corticosteroids Flag": "YES", "Systemic NSAIDs Flag": "YES" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9302", "AVISITN": 0, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 1.125, "Age": 43, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": "25 -< 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "NO", "Systemic Corticosteroids Flag": "NO", "Systemic NSAIDs Flag": "NO" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9302", "AVISITN": 4, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 0.875, "CHG": -0.25, "PRCHG": -22.2222, "Age": 43, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": "25 -< 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "NO", "Systemic Corticosteroids Flag": "NO", "Systemic NSAIDs Flag": "NO" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9302", "AVISITN": 8, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 0.5, "CHG": -0.625, "PRCHG": -55.5556, "Age": 43, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": "25 -< 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "NO", "Systemic Corticosteroids Flag": "NO", "Systemic NSAIDs Flag": "NO" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9302", "AVISITN": 12, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 0.5, "CHG": -0.625, "PRCHG": -55.5556, "Age": 43, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": "25 -< 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "NO", "Systemic Corticosteroids Flag": "NO", "Systemic NSAIDs Flag": "NO" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9302", "AVISITN": 16, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 0.625, "CHG": -0.5, "PRCHG": -44.4444, "Age": 43, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": "25 -< 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "NO", "Systemic Corticosteroids Flag": "NO", "Systemic NSAIDs Flag": "NO" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9302", "AVISITN": 24, "PARAMCD": "HAQDI", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 0.875, "CHG": -0.25, "PRCHG": -22.2222, "Age": 43, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": "25 -< 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "NO", "Systemic Corticosteroids Flag": "NO", "Systemic NSAIDs Flag": "NO" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9302", "AVISITN": 0, "PARAMCD": "PTVAS", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 78, "Age": 43, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": "25 -< 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "NO", "Systemic Corticosteroids Flag": "NO", "Systemic NSAIDs Flag": "NO" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9302", "AVISITN": 4, "PARAMCD": "PTVAS", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 69, "CHG": -9, "PRCHG": -11.5385, "Age": 43, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": "25 -< 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "NO", "Systemic Corticosteroids Flag": "NO", "Systemic NSAIDs Flag": "NO" },
+
+        { "STUDYNUM": "Study-A", "USUBJID": "Study-A-12-9302", "AVISITN": 8, "PARAMCD": "PTVAS", "TRT01P": "PLACEBO/XYZ 150 MG", "AVAL": 43, "CHG": -35, "PRCHG": -44.8718, "Age": 43, "Sex": "M", "Race": "WHITE", "Ethnicity": "NOT HISPANIC OR LATINO", "Pooled Baseline BMI Group 1": "25 -< 30", "Baseline BSA Group": "3-10%", "Pooled Baseline CRP Category 1": ">= 3", "Duration of PsA": ">=5 years", "Number of Prior csDMARDs": ">=2 csDMARDs", "Number of Prior Biologic DMARDs": ">=2 Biologic DMARDs", "Baseline use of Methotrexate": "NO", "Systemic Corticosteroids Flag": "NO", "Systemic NSAIDs Flag": "NO" }
+    ]
+
+
+
+
+    function paintTableFromData(valOne, valTwo) {
+
+
+
+        //SHOWS ALL JSON IN TABLE 
+
+        var col = [];
+
+        for (var i = 0; i < dummyData.length; i++) {
+
+
+            for (var key in dummyData[i]) {
+                if (col.indexOf(key) == -1) {
+                    col.push(key);
+
+                }
+
+            }
+
+        }
+
+
+        //TABLE CREATION
+
+        var table = document.createElement("table");
+
+        var tr = table.insertRow(-1);
+
+        for (var i = 0; i < col.length; i++) {
+            var th = document.createElement("th");
+            th.innerHTML = col[i];
+            tr.appendChild(th);
+        }
+
+
+
+
+        //BEGIN TO ADD JSON DATA TO THE TABLE
+
+        for (var i = 0; i < dummyData.length; i++) {
+            tr = table.insertRow(-1);
+
+            for (var a = 0; a < col.length; a++) {
+                if (dummyData[i].PARAMCD == valOne && dummyData[i].AVISITN == valTwo) {
+
+                    var tabCell = tr.insertCell(-1);
+                    tabCell.innerHTML = dummyData[i][col[a]];
+                }
+
+            }
+        }
+
+
+
+
+        // PRINT ALL DATA TO TABLE
+
+        var tableJsonData = document.getElementById("jsonData");
+
+        tableJsonData.innerHTML = "";
+        tableJsonData.appendChild(table);
+
+
+    }
+
+
+
+    const selectedElementOne = document.querySelector('.firstdropdown');
+
+    selectedElementOne.addEventListener('change', (event) => {
+        var firstParameter = event.target.value;
+        var secondParameter = document.getElementById("AVISITN");
+        var secondParameterResult = secondParameter.value;
+
+
+
+
+        paintTableFromData(firstParameter, secondParameterResult);
+
+
+    });
+
+
+
+
+    const selectedElementTwo = document.querySelector('.seconddropdown');
+
+    selectedElementTwo.addEventListener('change', (event) => {
+        var finalResult = event.target.value;
+        var firstParameter = document.getElementById("PARAMCD");
+        var firstParameterResult = firstParameter.value;
+
+
+
+        paintTableFromData(firstParameterResult, finalResult);
+    });
+
+
+
+
+
+    // SELECT DROPDOWN WITH SPECIFIC OBECT KEYS 
+    // FILTER ARRAY TO GET SPECIFIC VALUES
+
+    var singleFilters = [];
+    var secondFilters = [];
+    $.each(dummyData, function (i, option) {
+        singleFilters.push(option.PARAMCD);
+        secondFilters.push(option.AVISITN);
+
+
+
+
+    });
+
+    // ONLY SELECT DATA WE NEED 
+    $.each([...new Set(singleFilters)], function (i, option) {
+        $("#PARAMCD").append($('<option/>').attr("value", option).text(option));
+    });
+
+    // ONLY SELECT DATA WE NEED 
+    $.each([...new Set(secondFilters)], function (i, option) {
+        $("#AVISITN").append($('<option/>').attr("value", option).text(option));
+    });
+
+
+    //CALCULATE THE AVERAGE VALUES OF AVAL AND CHG
+
+    // Sanatise value function
+    sanitise = x => {
+        if (isNaN(x)) {
+            return NaN;
+        }
+        return x;
+    }
+
+
+
+    let sumAval = 0;
+    let sumChg = 0;
+
+    let avalCounter = 0;
+
+    let chgCounter = 0;
+
+    dummyData.map(data => {
+        if (data.AVAL) {
+            let avalNumber = sanitise(data.AVAL);
+            sumAval += avalNumber;
+            avalCounter += 1;
+        }
+
+
+        if (data.CHG) {
+            let chgNumber = sanitise(data.CHG);
+            sumChg += chgNumber
+            chgCounter += 1;
+        }
+        return;
+    });
+
+
+    const avalAverage = sumAval / avalCounter;
+    const chgAverage = sumChg / chgCounter;
+
+    console.log(`THE AVERAGE AVAL ${avalAverage}`);
+    console.log(`THE AVERAGE CHG ${chgAverage}`);
+
+  // Hi Eddie, this is Jayant, just to make it clear, the menu values should be unique. Also, how much time you think you will need
+
+  // Do you mean no duplicates on the drop down menu select? 
+  // I am only missing this ^ 
+  // I got the averages, do you want me to round up or round to any nearest number?
+  // Jayant: yes, no duplicates. For average, rounding is not needed
+  //Jayant: have you registered any event listeners for those two filter menus?
+
+  //apologies, I just saw that the table has to be filled out with the specific data from the selected dropdown menu. I will add an event listened for the selection to trigger the drawing of the table.
+  // 15 minutes?
+
+  // Jayant: sure
+
+// Jayant: Hi Eddie, are you still working on this?
+
+  //Hello, I'm done, just cleaning up the code and optomizing where it needs to be optimized 
+
+  // I could optimize this for big o notation if needed, Theres alot of looping
+  //Jayant: thanks, but for the sake of design and logic, we are not concerned with optimization. Appreciate your time for finshing this task. 
+
+</script>
